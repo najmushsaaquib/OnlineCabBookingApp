@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,8 @@ public class Customer {
 	ModelUser user;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="customer_generator", sequenceName = "customer_seq", allocationSize=10)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_generator")
 	private Integer customerId;
 
 }
