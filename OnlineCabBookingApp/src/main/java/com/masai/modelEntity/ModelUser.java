@@ -1,10 +1,14 @@
 package com.masai.modelEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
-
-
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ModelUser {
 	
 	private String username;
@@ -12,6 +16,7 @@ public class ModelUser {
 	private String address;
 	private String mobile;
 	private String email;
+	
 	
 	
 }

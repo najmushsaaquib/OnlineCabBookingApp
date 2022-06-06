@@ -2,155 +2,106 @@ package com.masai.services;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
-import com.masai.Exception.CustomerException;
-
+import com.masai.DTO.CustomerDTO;
+import com.masai.exceptions.CustomerException;
 import com.masai.modelEntity.Customer;
 import com.masai.modelEntity.ModelUser;
-import com.masai.repository.CustomerDTO;
-import com.masai.repository.CustomerDao;
-
-
+import com.masai.modelEntity.UserSession;
+import com.masai.repository.CustomerDAO;
+import com.masai.repository.UserSessionDAO;
 
 @Service
-public  class CustomerServiceImpl implements CustomerService{
-    
+public class CustomerServiceImpl implements CustomerService {
+
 	@Autowired
-	CustomerDao cDao;
-	
-	@Override
-	public Customer addNewCustomer(Customer customer) {
-		Customer newCustomer = cDao.save(customer);
-		return newCustomer;
-	}
-	@Override
-	public Customer getCustomerById(Integer customerId) {
-		
-		Optional<Customer> opt= cDao.findById(customerId);
-		
-		if(opt.isPresent()) {
-			
-			Customer customer= opt.get();
-			return customer;
-			
-		}
-		return cDao.findById(customerId).orElseThrow(() -> new CustomerException("Customer does not exist with Roll :"+customerId));
+	CustomerDAO customerDAO;
 
-	
-}
+	@Autowired
+	UserSessionDAO userSessionDao;
 	@Override
-	public List<Customer> getAllCustomers() {
-		
-		List<Customer> customers = cDao.findAll();
-		if(customers.size() > 0) {
-			return customers;
+	public Customer register(Customer user) {
+
+		Optional<Customer> existing = customerDAO.findByUserMobile(user.getUser().getMobile());
+
+		if (existing.isPresent()) {
+
+			System.out.println("Customer is already present");
+			throw new CustomerException("A Customer already exist with this mobile number in the Database");
 		}
-		return null;
-	}
-	@Override
-	public Customer deleteStudentById(Integer customerId) {
-		Customer existingCustomer = cDao.findById(customerId).orElseThrow(()-> new CustomerException("Customer Does Not Exist of Customer Id "+customerId));
-		cDao.delete(existingCustomer);
-		return existingCustomer;
+
+		return customerDAO.save(user);
+
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer) throws CustomerException {
-		Optional<Customer> opt = cDao.findById(customer.getCustomerId());
-		if(opt.isPresent()) {
-			
-			Customer cust = opt.get();
-			return cDao.save(customer);
-		}
-		else
-			throw new CustomerException("Invalid Customer Details..");
+	public List<Customer> getCustomer() {
+		
+
+		List<Customer> list = customerDAO.findAll();
+
+		return list;
 	}
-	
+
 	@Override
-	public Customer updateCustomerPassword(Integer customerId, String password) throws CustomerException {
-		Optional<Customer> opt = cDao.findById(customerId);
-		if(opt.isPresent()) {
-			Customer cust = opt.get();
-			ModelUser mo =cust.getUser();
-			mo.setPassword(password);
-			return cust;
+	public Customer updatePassword(CustomerDTO dto, String mobile, String key) {
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		Customer updated= null;
+		if(otp.isEmpty()) throw new CustomerException("User is not logged in, Please login first!");
+		Optional<Customer> opt = customerDAO.findByUserMobile(mobile);
+		if (opt.isEmpty()) throw new CustomerException("Username not found");
+		else {
+			Customer toUpdate = opt.get();
+			Integer id = toUpdate.getCustomerId();
+			ModelUser user = toUpdate.getUser();
+			user.setPassword(dto.getPassword());
+			Customer newOne = new Customer(user, id);
+			updated= customerDAO.save(newOne);
 		}
-		else
-			throw new CustomerException("Customer Does Not Exist of Customer Id "+customerId);
+		return updated;
+		
 	}
+
 	@Override
-	public List<Customer> getCustomersByUserName(String userName) throws CustomerException {
-		List<Customer> opt= cDao.findByUserUsername(userName);
-		if(opt.isEmpty()) ;
+	public String deleteCustomer(CustomerDTO dto, String key) {
 		
-		return opt;
-		
-		
+		Optional<UserSession> otp=userSessionDao.findByUuid(key);
+		if(otp.isEmpty()) throw new CustomerException("User is not logged in, Please login first!");
+		else {
+		Optional<Customer> opt= customerDAO.findByUserMobile(dto.getMobile());
+		if(opt.isEmpty())  throw new CustomerException("Username not found");
+		else {
+			Customer toBeDelete=opt.get();
+			customerDAO.delete( toBeDelete);
+		}
+		}
+		return "Your Id with Username "+dto.getMobile()+" is Deleted.";
 	}
-	
+
+	@Override
+	public Customer updateCustomer(Customer customer,String mobile, String key) {
+         
+		Customer updated =null;
+		
+		Optional<UserSession> otp=userSessionDao.findByUuid(key);
+		
+		if(otp.isEmpty()) throw new CustomerException("User is not logged in, Please login first!");
+		else {
+		Optional<Customer> opt=customerDAO.findByUserMobile(mobile);
+		if(opt.isEmpty()) throw new CustomerException("Username not found");
+		else{
+			Customer toUpdate = opt.get();
+			Integer id = toUpdate.getCustomerId();
+			Customer newOne = new Customer(customer.getUser(),id);
+			updated= customerDAO.save(newOne);
+		}
+		}
+		return updated;     
+	}
 
 	
-	
-	
-	
-//	@Override
-//	public Customer updateCustomerName(Integer customerId, String customerName) throws CustomerException {
-//		
-//		Optional<Customer> opt = cDao.findById(customerId);
-//		if(opt.isPresent()) {
-//			Customer cust = opt.get();
-//			cust.setCustomerName(customerName);
-//			return cust;
-//		}
-//		else
-//			throw new CustomerException("Customer Does Not Exist of Customer Id "+customerId);
-//	}
-//	@Override
-//	public Customer updateCustomerAddress(Integer customerId, ModelUser address) throws CustomerException {
-//		Optional<Customer> opt = cDao.findById(customerId);
-//		if(opt.isPresent()) {
-//			Customer cust = opt.get();
-//			cust.setUser(address);
-//			return cust;
-//		}
-//		else
-//			throw new CustomerException("Customer Does Not Exist of Customer Id "+customerId);
-//	}
-//	@Override
-//	public Customer updateCustomerMobileNumber(Integer customerId, String mobile) throws CustomerException {
-//		Optional<Customer> opt = cDao.findById(customerId);
-//		if(opt.isPresent()) {
-//			Customer cust = opt.get();
-//			cust.setMobile(mobile);
-//			return cust;
-//		}
-//		else
-//			throw new CustomerException("Customer Does Not Exist of Customer Id "+customerId);
-//	}
-//	@Override
-//	public Customer updateCustomerUserName(Integer customerId, String username) throws CustomerException {
-//		Optional<Customer> opt = cDao.findById(customerId);
-//		if(opt.isPresent()) {
-//			Customer cust = opt.get();
-//			cust.setUsername(username);
-//			return cust;
-//		}
-//		else
-//			throw new CustomerException("Customer Does Not Exist of Customer Id "+customerId);
-//	}
-//	@Override
-//	public Customer updateCustomerEmail(Integer customerId, String email) throws CustomerException {
-//		Optional<Customer> opt = cDao.findById(customerId);
-//		if(opt.isPresent()) {
-//			Customer cust = opt.get();
-//			cust.setEmail(email);
-//			return cust;
-//		}
-//		else
-//			throw new CustomerException("Customer Does Not Exist of Customer Id "+customerId);
-//	}
-	
+
 }

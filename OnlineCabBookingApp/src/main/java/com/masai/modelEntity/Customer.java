@@ -5,30 +5,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Data
-public class Customer   {
-	
-	
+public class Customer {
+
+	@Embedded
+	ModelUser user;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="customer_generator", sequenceName = "customer_seq", allocationSize=10)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_generator")
 	private Integer customerId;
-	@Embedded
-	private ModelUser user;
 
-	
-	
-	
-	
-	
-	
-	
 }
