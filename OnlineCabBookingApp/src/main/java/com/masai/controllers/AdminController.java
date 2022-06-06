@@ -29,18 +29,18 @@ public class AdminController {
 		
 	}
 	@PatchMapping("/update/{username}")
-	public Admin adminUpdatePassword(@RequestBody Admin admin, @PathVariable ("username" ) String username) {
-		return adminService.updatePassword(admin, username);
+	public Admin adminUpdatePassword(@RequestBody AdminDTO dto, @PathVariable ("username" ) String username, @RequestParam String key) {
+		return adminService.updatePassword(dto, username, key);
 	}
 	
 	@PutMapping("/update/{username}")
-	public Admin adminUpdate(@RequestBody Admin admin, @PathVariable ("username") String username) {
-		return adminService.update(admin, username);
+	public Admin adminUpdate(@RequestBody Admin admin, @PathVariable ("username") String username, @RequestParam String key) {
+		return adminService.update(admin, username, key);
 	}
 	
 	@DeleteMapping("/delete")
-	public String adminDelete(@RequestBody AdminDTO dto) {
-		return adminService.deleteByUsername(dto);
+	public String adminDelete(@RequestBody AdminDTO dto, @RequestParam String key) {
+		return adminService.deleteByUsername(dto, key);
 		
 	}
 	
