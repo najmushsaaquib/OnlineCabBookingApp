@@ -10,5 +10,6 @@ import com.masai.modelEntity.Admin;
 public interface AdminDao extends JpaRepository<Admin, Integer>{
 	
 	public Optional<Admin> findByUserUsername(String username) ;
-
+	
+	public Optional<Admin> findByUserMobile(String username) ;
 }

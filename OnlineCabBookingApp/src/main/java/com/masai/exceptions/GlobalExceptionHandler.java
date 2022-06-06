@@ -20,6 +20,11 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
 
 	}
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<MyErrorDetails> myExpHandlerUsernameNotFoundException(UsernameNotFoundException nfe, WebRequest req) {
+		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), nfe.getMessage(), req.getDescription(false));
+		return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<MyErrorDetails> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException manv,
@@ -28,6 +33,8 @@ public class GlobalExceptionHandler {
 		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), message, wr.getDescription(false));
 		return new ResponseEntity<>(err, HttpStatus.FORBIDDEN);
 	}
+	
+	
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<MyErrorDetails> myExpHandlerMain(Exception ie, WebRequest wr) {
@@ -36,5 +43,8 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.BAD_REQUEST);
 
 	}
+	
+	
+	
 
 }
