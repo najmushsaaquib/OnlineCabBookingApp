@@ -18,5 +18,9 @@ public class TripBooking {
 	private String toDate;
 	private String status;
 	private Integer bill;
+	
+	private Customer customer;
+	
+	private Cab cab;
 
 }
