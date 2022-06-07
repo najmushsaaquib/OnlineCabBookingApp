@@ -1,9 +1,11 @@
 package com.masai.modelEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -21,6 +23,7 @@ public class Cab {
 	private Double perKmRate;
 	private String cabType;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "driverId")
 	private  Driver driver;
 }
