@@ -1,15 +1,11 @@
 package com.masai.services;
 
 
-import com.masai.DTO.AdminDTO;
-import com.masai.DTO.CustomerDTO;
-import com.masai.modelEntity.AdminSession;
-import com.masai.modelEntity.UserSession;
+import com.masai.DTO.DriverDTO;
+import com.masai.modelEntity.DriverSession;
 
 
 public interface LoginService {
 
-	public UserSession loginCustomer(CustomerDTO customer);
-	public AdminSession loginAdmin(AdminDTO dto); 
-
+	public DriverSession loginDriver(DriverDTO dto);
 }

@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDTO {
+@NoArgsConstructor
+public class DriverDTO {
 
-	private String mobile;
 	private String password;
+	private String username;
+	private String mobile;
 
 }

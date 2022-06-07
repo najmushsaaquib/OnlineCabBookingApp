@@ -14,6 +14,8 @@ import lombok.Setter;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Driver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

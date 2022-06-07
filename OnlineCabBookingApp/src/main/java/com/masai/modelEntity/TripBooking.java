@@ -19,8 +19,8 @@ public class TripBooking {
 	private String status;
 	private Integer bill;
 	
-	private Customer customer;
-	
-	private Cab cab;
+//	private Customer customer;
+//	
+//	private Cab cab;
 
 }
