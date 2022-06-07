@@ -8,16 +8,22 @@ import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+public class Driver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer adminId;
+	private Integer driverId; 
+	private Integer rating;
+	private String licenceId;
+	
+	
 	@Embedded
 	private ModelUser user;
 
