@@ -1,5 +1,5 @@
 package com.masai.modelEntity;
 
-public class Driver {
+public class Demo {
 
 }
