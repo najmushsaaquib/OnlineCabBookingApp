@@ -13,6 +13,7 @@ import com.masai.modelEntity.DriverSession;
 import com.masai.repository.DriverDAO;
 import com.masai.repository.DriverSessionDao;
 
+
 @Service
 public class LoginServiceImpl implements LoginService {
 
@@ -60,8 +61,6 @@ public class LoginServiceImpl implements LoginService {
 
 	}
 
-
 	
-
 
 }

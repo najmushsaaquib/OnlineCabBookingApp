@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.masai.DTO.DriverDTO;
 import com.masai.modelEntity.DriverSession;
+
 import com.masai.services.LoginService;
 
 @RestController
@@ -22,6 +23,7 @@ public class LoginController {
 	
 	//Handler to login a customer
 	
+
 		
 		
 		@PostMapping("/driver")
@@ -29,8 +31,7 @@ public class LoginController {
 			return new ResponseEntity<>(loginService.loginDriver(dto), HttpStatus.ACCEPTED);
 		}
 		
-	
-		
+
 		
 
 }
