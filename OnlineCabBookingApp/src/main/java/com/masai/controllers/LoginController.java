@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.masai.DTO.AdminDTO;
 import com.masai.DTO.CustomerDTO;
 import com.masai.modelEntity.AdminSession;
-import com.masai.modelEntity.UserSession;
-import com.masai.services.CustomerService;
+
 import com.masai.services.LoginService;
 
 @RestController
@@ -25,10 +24,7 @@ public class LoginController {
 	
 	//Handler to login a customer
 	
-		@PostMapping("/customer")
-		public ResponseEntity<UserSession> loginCustomerHandler(@RequestBody CustomerDTO customerdto){
-			return new ResponseEntity<>(loginService.loginCustomer(customerdto), HttpStatus.ACCEPTED);
-		}
+		
 		
 		@PostMapping("/admin")
 		public ResponseEntity<AdminSession> loginAdminHandler(@RequestBody AdminDTO dto){
