@@ -2,6 +2,8 @@ package com.masai.exceptions;
 
 import java.time.LocalDateTime;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +27,14 @@ public class GlobalExceptionHandler {
 		MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), nfe.getMessage(), req.getDescription(false));
 		return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
 	}
+	
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<MyErrorDetails> handleValidationException(Exception exp, WebRequest req) {
+        MyErrorDetails err = new MyErrorDetails(LocalDateTime.now(), "Improper arguments passed in json. Validation failed", req.getDescription(false));
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<MyErrorDetails> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException manv,

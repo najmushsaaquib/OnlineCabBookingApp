@@ -87,6 +87,36 @@ public class DriverServicesImpl implements DriverServices {
 		return updateddriver;
 	}
 
+	@Override
+	public String updateStatus(String newStatus, String key) {
+		String status=null;
+		String msg=null;
+		if(newStatus.equalsIgnoreCase("Y")) {
+			status="YES";
+			msg="Your Status is Changed to Online.";
+		} 
+		else {
+			status="NO";
+			msg="Your Status is Changed to Offline.";
+			
+		}
+		
+		Optional<DriverSession> opt=driverSessionDao.findByUuid(key);
+		if(opt.isEmpty()) throw new CustomerException("Ther is no Driver in the list");
+		
+		else {
+			DriverSession driverSession=opt.get();
+			Integer driverId=driverSession.getDriverId();
+			Optional<Driver> existingDriverOpt=driverDao.findById(driverId);
+			Driver existingDriver=existingDriverOpt.get();
+			existingDriver.getCab().setAvailable(status);
+			driverDao.save(existingDriver);
+			
+			
+		}
+		return msg;
+	}
+
 	
 
 }

@@ -28,7 +28,6 @@ public class Driver {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "driver_generator")
 	private Integer driverId; 
 	
-	@Max(5)
 	private Float rating;
 	
 	@Column(unique = true)

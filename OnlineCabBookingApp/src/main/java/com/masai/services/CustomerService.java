@@ -27,6 +27,9 @@ public interface CustomerService {
 	
 	public List<Driver> getAvailableDrivers();
 	
+	public List<Driver> generalListOfDrivers();
+	
 	public TripBooking bookTrip(TripBooking trip, String key  );  
+	
 	
 }
