@@ -63,5 +63,12 @@ public class DriverController {
 		return driverServices.updateStatus(newStatus, key);
 		
 	}
+	
+	@GetMapping("/logout")
+	public String logoutDriver(@RequestParam String key) {
+
+		return driverServices.logoutDriver(key);
+
+	}
 
 }

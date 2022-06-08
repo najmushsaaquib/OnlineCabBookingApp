@@ -34,10 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	DriverDAO driverDao;
-	
+
 	@Autowired
 	TripbookingDao tripBookingDao;
-	
 
 	@Override
 	public Customer register(Customer user) {
@@ -131,30 +130,30 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return listOfAvailableDrivers;
 	}
-	
+
 	@Override
-	public List<Driver> generalListOfDrivers(){
-		
-		List<Driver> listOfDrivers=driverDao.findAll();
+	public List<Driver> generalListOfDrivers() {
+
+		List<Driver> listOfDrivers = driverDao.findAll();
 		return listOfDrivers;
 	}
 
 	@Override
 	public TripBooking bookTrip(TripBooking trip, String key) {
-		TripBooking res=null;
-	
-		Optional<UserSession> otp= userSessionDao.findByUuid(key);
+		TripBooking res = null;
+
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
 		if (otp.isEmpty())
 			throw new CustomerException("User is not logged in, Please login first!");
 		else {
-			
-			Optional<Customer> cust=customerDAO.findById(trip.getCustomer().getCustomerId());
-			Customer checkCustomer=cust.get();
-			
-			Optional<Driver> driv=driverDao.findById(trip.getDriver().getDriverId());
-			Driver checkDriver=driv.get();
-			
-			TripBooking newTrip=new TripBooking();
+
+			Optional<Customer> cust = customerDAO.findById(trip.getCustomer().getCustomerId());
+			Customer checkCustomer = cust.get();
+
+			Optional<Driver> driv = driverDao.findById(trip.getDriver().getDriverId());
+			Driver checkDriver = driv.get();
+
+			TripBooking newTrip = new TripBooking();
 			newTrip.setBill(checkDriver.getCab().getCabType().getPrice() * trip.getDistanceInKm());
 			newTrip.setCustomer(checkCustomer);
 			newTrip.setDistanceInKm(trip.getDistanceInKm());
@@ -164,18 +163,25 @@ public class CustomerServiceImpl implements CustomerService {
 			newTrip.setStatus(TripStatus.CONFIRMED);
 			newTrip.setToDate(trip.getToDate());
 			newTrip.setToLocation(trip.getToLocation());
-			res=tripBookingDao.save(newTrip);
-			
-			
+			res = tripBookingDao.save(newTrip);
+
 		}
 		return res;
-		
-		
-		
+
+	}
+
+	@Override
+	public String logoutCustomer(String key) {
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		if (otp.isEmpty())
+			throw new CustomerException("User is not logged in, Please login first!");
+		else {
+
+			userSessionDao.delete(otp.get());
 		}
 
-		
-		 
-	
+		return "Customer has succefully logged out.";
+
+	}
 
 }

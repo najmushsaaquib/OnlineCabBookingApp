@@ -77,9 +77,9 @@ public class CustomerController {
 		return customerService.getAvailableDrivers();
 
 	}
-	
+
 	@GetMapping("/allcabs")
-	public List<Driver> getListForAll(){
+	public List<Driver> getListForAll() {
 		return customerService.generalListOfDrivers();
 	}
 
@@ -92,5 +92,17 @@ public class CustomerController {
 
 		return confirmed;
 	}
+
+	@GetMapping("/logout")
+	public String logoutCustomer(@RequestParam String key) {
+
+		return customerService.logoutCustomer(key);
+
+	}
+	
+//	@DeleteMapping("/tripcompleted")
+//	public String tripComplete(@RequestParam String key) {
+//		
+//	}
 
 }

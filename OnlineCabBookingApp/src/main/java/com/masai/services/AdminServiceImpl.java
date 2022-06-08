@@ -83,4 +83,18 @@ public class AdminServiceImpl implements AdminService {
 		return "Your Id with Username "+dto.getUsername()+" is Deleted.";
 	}
 
+	@Override
+	public String logoutAdmin(String key) {
+		// TODO Auto-generated method stub
+		Optional<AdminSession> otp=adminSessionDao.findByUuid(key);
+		if(otp.isEmpty()) throw new CustomerException("Admin is not logged in, Please login first!");
+		else {
+			
+			adminSessionDao.delete(otp.get());
+			
+		}
+		
+		return "Admin has succefully logged out.";
+	}
+
 }
