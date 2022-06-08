@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.masai.DTO.AdminDTO;
 import com.masai.DTO.CustomerDTO;
+import com.masai.DTO.DriverDTO;
 import com.masai.modelEntity.AdminSession;
+import com.masai.modelEntity.DriverSession;
 import com.masai.modelEntity.UserSession;
 import com.masai.services.CustomerService;
 import com.masai.services.LoginService;
@@ -39,6 +41,10 @@ public class LoginController {
 		}
 		
 
+		@PostMapping("/driver")
+		public ResponseEntity<DriverSession> loginAdminHandler(@RequestBody DriverDTO dto){
+			return new ResponseEntity<>(loginService.loginDriver(dto), HttpStatus.ACCEPTED);
+		}
 	
 		
 		
