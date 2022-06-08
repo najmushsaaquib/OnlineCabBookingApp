@@ -132,6 +132,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Driver> getAvailableDrivers() {
 
+
 		List<Driver> listOfAvailableDrivers = driverDao.findByCabAvailable("YES");
 
 		return listOfAvailableDrivers;
@@ -191,6 +192,7 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 
 		return "Customer has succefully logged out.";
+
 
 	}
 	

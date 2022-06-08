@@ -132,4 +132,20 @@ public class DriverServicesImpl implements DriverServices {
 
 	}
 
+	@Override
+	public List<Driver> viewBestDriver(String key,float rating) {
+		
+		Optional<DriverSession> opt = driverSessionDao.findByUuid(key);
+		if (opt.isEmpty()) {
+			System.out.println("driver is not loged  in");
+
+			throw new CustomerException("Driver is not loged in ,Please log in first");
+		}
+			
+		
+	List<Driver>bestDriver=driverDao.findByRatingGreaterThan(rating);
+		
+		return bestDriver;
+	}
+
 }

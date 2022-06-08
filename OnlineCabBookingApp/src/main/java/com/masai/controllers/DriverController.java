@@ -70,5 +70,11 @@ public class DriverController {
 		return driverServices.logoutDriver(key);
 
 	}
+	
+	@GetMapping(value ="/bestdriver")
+	public List<Driver> getBestDriver(@RequestParam String key,@RequestParam  float rating){
+		
+		return driverServices.viewBestDriver(key,rating);
+	}
 
 }
