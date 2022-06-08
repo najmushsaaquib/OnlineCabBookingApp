@@ -11,10 +11,17 @@ import com.masai.DTO.CustomerDTO;
 import com.masai.exceptions.CustomerException;
 import com.masai.exceptions.LoginException;
 import com.masai.modelEntity.AdminSession;
-import com.masai.modelEntity.Customer;
-import com.masai.modelEntity.UserSession;
+
 import com.masai.repository.AdminDao;
 import com.masai.repository.AdminSessionDao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.masai.DTO.CustomerDTO;
+import com.masai.exceptions.CustomerException;
+import com.masai.exceptions.LoginException;
+import com.masai.modelEntity.Customer;
+import com.masai.modelEntity.UserSession;
 import com.masai.repository.CustomerDAO;
 import com.masai.repository.UserSessionDAO;
 
@@ -22,13 +29,14 @@ import com.masai.repository.UserSessionDAO;
 public class LoginServiceImpl implements LoginService {
 
 	@Autowired
+	private AdminSessionDao adminSession;
+
+	@Autowired
 	private UserSessionDAO sessionDAO;
 
 	@Autowired
 	private CustomerDAO customerDAO;
-	@Autowired
-	private AdminSessionDao adminSession;
-	
+
 	@Autowired
 	private AdminDao adminDao;
 
@@ -42,10 +50,9 @@ public class LoginServiceImpl implements LoginService {
 			throw new CustomerException("Customer does not exist with the given mobile number");
 		}
 
-
 		Customer existingCustomer = res.get();
 		Optional<UserSession> opt = sessionDAO.findByUserId(existingCustomer.getCustomerId());
-		
+
 		if (opt.isPresent())
 			throw new LoginException("User already logged in");
 
@@ -70,20 +77,18 @@ public class LoginServiceImpl implements LoginService {
 
 	}
 
-	
 	@Override
 	public AdminSession loginAdmin(AdminDTO dto) {
-		
-		Optional<Admin> res = adminDao.findByUserMobile(dto.getMobile()); 
-		
-		if(res.isEmpty()) {
+		Optional<Admin> res = adminDao.findByUserMobile(dto.getMobile());
+
+		if (res.isEmpty()) {
 			System.out.println("No Admin exist");
 			throw new CustomerException("Admin was not there in the data base");
 		}
-		
-		 Admin existingAdmin = res.get();
-		Optional<AdminSession> opt = adminSession.findByAdminId(existingAdmin.getAdminId());       
-		
+
+		Admin existingAdmin = res.get();
+		Optional<AdminSession> opt = adminSession.findByAdminId(existingAdmin.getAdminId());
+
 		if (opt.isPresent())
 			throw new LoginException("User already logged in");
 
@@ -106,7 +111,5 @@ public class LoginServiceImpl implements LoginService {
 			throw new LoginException("Password Incorrect. Try again.");
 		}
 	}
-
-
 
 }

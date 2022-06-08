@@ -25,15 +25,20 @@ public class LoginController {
 	
 	//Handler to login a customer
 	
-		@PostMapping("/customer")
-		public ResponseEntity<UserSession> loginCustomerHandler(@RequestBody CustomerDTO customerdto){
-			return new ResponseEntity<>(loginService.loginCustomer(customerdto), HttpStatus.ACCEPTED);
-		}
+
+		
 		
 		@PostMapping("/admin")
 		public ResponseEntity<AdminSession> loginAdminHandler(@RequestBody AdminDTO dto){
 			return new ResponseEntity<>(loginService.loginAdmin(dto), HttpStatus.ACCEPTED);
 		}
+
+		@PostMapping("/customer")
+		public ResponseEntity<UserSession> loginCustomerHandler(@RequestBody CustomerDTO customerdto){
+			return new ResponseEntity<>(loginService.loginCustomer(customerdto), HttpStatus.ACCEPTED);
+		}
+		
+
 	
 		
 		
