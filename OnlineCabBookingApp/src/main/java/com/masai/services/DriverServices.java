@@ -12,5 +12,8 @@ public interface DriverServices {
 		public String removeDriver(String name,String key);
 		public Driver updateDriver(Driver driver,String key);
 		public String updateStatus(String newStatus, String key);
+		
+		public List<Driver> viewBestDriver(String key,float rating);
+		
 		public String logoutDriver(String key);
 }
