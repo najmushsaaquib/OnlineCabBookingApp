@@ -23,7 +23,14 @@ public class DriverServicesImpl implements DriverServices {
 
 	@Override
 	public Driver newDriver(Driver driver) {
-
+   
+		Optional<Driver> optDriver=driverDao.findByUserMobile(driver.getUser().getMobile());
+		
+		if(!optDriver.isEmpty()) {
+			System.out.println("Driver already exist with this mobile Number");
+			
+			throw new CustomerException("Driver already exist with this mobile Number");
+		}
 		Driver newDriver = driverDao.save(driver);
 		return newDriver;
 	}
