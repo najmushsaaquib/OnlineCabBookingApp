@@ -71,14 +71,14 @@ public class CustomerController {
 		return customerService.updateCustomer(customer, mobile, key);
 	}
 
-	@GetMapping("/availableCabs")
+	@GetMapping("/availablecabs")
 	public List<Driver> availableDrivers() {
 
 		return customerService.getAvailableDrivers();
 
 	}
 
-	@PostMapping("/bootrip")
+	@PostMapping("/booktrip")
 	public ResponseEntity<TripBooking> bookTrip(@RequestBody TripBooking trip, @RequestParam String key) {
 
 		TripBooking bookedTrip = customerService.bookTrip(trip, key);

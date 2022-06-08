@@ -125,7 +125,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Driver> getAvailableDrivers() {
 
-		List<Driver> listOfAvailableDrivers = driverDao.findByCabAvailable(true);
+		List<Driver> listOfAvailableDrivers = driverDao.findByCabAvailable("true");
 
 		return listOfAvailableDrivers;
 	}
@@ -140,6 +140,7 @@ public class CustomerServiceImpl implements CustomerService {
 		Customer requestedCustomer = cust.get();
 		Optional<Driver> driv=driverDao.findById(trip.getDriver().getDriverId());
 		Driver requestedDriver = driv.get();
+//		CabType c=new CabType(requestedDriver.getCab().getCabType().)
 		
 		TripBooking newTrip = new TripBooking();
 		
@@ -149,7 +150,7 @@ public class CustomerServiceImpl implements CustomerService {
 		newTrip.setToDate(trip.getToDate());
 		newTrip.setDistanceInKm(trip.getDistanceInKm());
 		newTrip.setStatus(TripStatus.CONFIRMED);
-		newTrip.setBill(20.45);
+		newTrip.setBill(200.45);
 		newTrip.setCustomer(requestedCustomer);
 		newTrip.setDriver(requestedDriver);
 		
