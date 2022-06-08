@@ -3,6 +3,7 @@ package com.masai.controllers;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,12 @@ public class AdminController {
 		
 	}
 	
-	
+	@GetMapping("/logout")
+	public String logoutAdmin(@RequestParam String key) {
+		
+		return adminService.logoutAdmin(key);
+		
+	}
 	
 
 }

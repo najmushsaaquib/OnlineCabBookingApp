@@ -12,4 +12,5 @@ public interface DriverServices {
 		public String removeDriver(String name,String key);
 		public Driver updateDriver(Driver driver,String key);
 		public String updateStatus(String newStatus, String key);
+		public String logoutDriver(String key);
 }
