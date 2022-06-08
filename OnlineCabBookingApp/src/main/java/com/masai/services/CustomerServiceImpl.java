@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.CustomerException;
+import com.masai.modelEntity.AdminSession;
 import com.masai.modelEntity.Customer;
 import com.masai.modelEntity.Driver;
 import com.masai.repository.CustomerDAO;
@@ -36,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	TripbookingDao tripBookingDao;
+	
 
 	@Override
 	public Customer register(Customer user) {
@@ -125,37 +127,55 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Driver> getAvailableDrivers() {
 
-		List<Driver> listOfAvailableDrivers = driverDao.findByCabAvailable(true);
+		List<Driver> listOfAvailableDrivers = driverDao.findByCabAvailable("YES");
 
 		return listOfAvailableDrivers;
+	}
+	
+	@Override
+	public List<Driver> generalListOfDrivers(){
+		
+		List<Driver> listOfDrivers=driverDao.findAll();
+		return listOfDrivers;
 	}
 
 	@Override
 	public TripBooking bookTrip(TripBooking trip, String key) {
-		
-		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		TripBooking res=null;
+	
+		Optional<UserSession> otp= userSessionDao.findByUuid(key);
 		if (otp.isEmpty())
 			throw new CustomerException("User is not logged in, Please login first!");
-		Optional<Customer> cust=customerDAO.findById(trip.getCustomer().getCustomerId());
-		Customer requestedCustomer = cust.get();
-		Optional<Driver> driv=driverDao.findById(trip.getDriver().getDriverId());
-		Driver requestedDriver = driv.get();
+		else {
+			
+			Optional<Customer> cust=customerDAO.findById(trip.getCustomer().getCustomerId());
+			Customer checkCustomer=cust.get();
+			
+			Optional<Driver> driv=driverDao.findById(trip.getDriver().getDriverId());
+			Driver checkDriver=driv.get();
+			
+			TripBooking newTrip=new TripBooking();
+			newTrip.setBill(checkDriver.getCab().getCabType().getPrice() * trip.getDistanceInKm());
+			newTrip.setCustomer(checkCustomer);
+			newTrip.setDistanceInKm(trip.getDistanceInKm());
+			newTrip.setDriver(checkDriver);
+			newTrip.setFromDate(trip.getFromDate());
+			newTrip.setFromLocation(trip.getFromLocation());
+			newTrip.setStatus(TripStatus.CONFIRMED);
+			newTrip.setToDate(trip.getToDate());
+			newTrip.setToLocation(trip.getToLocation());
+			res=tripBookingDao.save(newTrip);
+			
+			
+		}
+		return res;
 		
-		TripBooking newTrip = new TripBooking();
 		
-		newTrip.setFromLocation(trip.getFromLocation());
-		newTrip.setToLocation(trip.getToLocation());
-		newTrip.setFromDate(trip.getFromDate());
-		newTrip.setToDate(trip.getToDate());
-		newTrip.setDistanceInKm(trip.getDistanceInKm());
-		newTrip.setStatus(TripStatus.CONFIRMED);
-		newTrip.setBill(20.45);
-		newTrip.setCustomer(requestedCustomer);
-		newTrip.setDriver(requestedDriver);
 		
-		return tripBookingDao.save(newTrip);
+		}
+
 		
 		 
-	}
+	
 
 }

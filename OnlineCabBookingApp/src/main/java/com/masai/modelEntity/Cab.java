@@ -26,5 +26,5 @@ public class Cab {
 	@NotNull
 	private CabType cabType;
 	
-	private boolean available;
+	private String available;
 }

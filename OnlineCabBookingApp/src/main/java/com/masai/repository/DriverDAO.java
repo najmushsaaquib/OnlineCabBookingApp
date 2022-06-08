@@ -14,7 +14,7 @@ public interface DriverDAO extends JpaRepository<Driver, Integer>{
 		
 		public Optional<Driver>findByUserMobile(String mobile);
 		
-		public List<Driver> findByCabAvailable(Boolean bool);
+		public List<Driver> findByCabAvailable(String bool);
 		
 		
 }

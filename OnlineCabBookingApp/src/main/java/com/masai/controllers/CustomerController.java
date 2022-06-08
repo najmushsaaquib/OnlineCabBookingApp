@@ -77,8 +77,13 @@ public class CustomerController {
 		return customerService.getAvailableDrivers();
 
 	}
+	
+	@GetMapping("/allcabs")
+	public List<Driver> getListForAll(){
+		return customerService.generalListOfDrivers();
+	}
 
-	@PostMapping("/bootrip")
+	@PostMapping("/booktrip")
 	public ResponseEntity<TripBooking> bookTrip(@RequestBody TripBooking trip, @RequestParam String key) {
 
 		TripBooking bookedTrip = customerService.bookTrip(trip, key);
