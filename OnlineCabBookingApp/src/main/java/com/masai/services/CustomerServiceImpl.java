@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.masai.exceptions.CustomerException;
+import com.masai.modelEntity.Customer;
+import com.masai.repository.CustomerDAO;
 import com.masai.DTO.CustomerDTO;
 import com.masai.exceptions.CustomerException;
 import com.masai.modelEntity.Customer;
@@ -39,7 +42,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<Customer> getCustomer() {
-		
 
 		List<Customer> list = customerDAO.findAll();
 

@@ -9,23 +9,17 @@ import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Driver {
+public class Admin {
 	@Id
-	@SequenceGenerator(name="driver_generator", sequenceName = "driver_seq", allocationSize=10)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "driver_generator")
-	private Integer driverId; 
-	private Integer rating;
-	private String licenceId;
-	
-	
+	@SequenceGenerator(name="admin_generator", sequenceName = "admin_generator", allocationSize=10)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_generator")
+	private Integer adminId;
 	@Embedded
 	private ModelUser user;
 
