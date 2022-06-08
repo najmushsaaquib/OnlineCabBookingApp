@@ -2,14 +2,17 @@ package com.masai.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.CustomerException;
 import com.masai.modelEntity.AdminSession;
+import com.masai.modelEntity.CompletedTrips;
 import com.masai.modelEntity.Customer;
 import com.masai.modelEntity.Driver;
+import com.masai.repository.CompletedTripsDao;
 import com.masai.repository.CustomerDAO;
 import com.masai.repository.DriverDAO;
 import com.masai.repository.TripbookingDao;
@@ -37,6 +40,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	TripbookingDao tripBookingDao;
+	
+	@Autowired
+	CompletedTripsDao completedTripsDao;
 
 	@Override
 	public Customer register(Customer user) {
@@ -141,12 +147,16 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public TripBooking bookTrip(TripBooking trip, String key) {
 		TripBooking res = null;
+		Random r=new Random();
+		Integer low=10;
+		Integer high=1000;
+		
 
 		Optional<UserSession> otp = userSessionDao.findByUuid(key);
 		if (otp.isEmpty())
 			throw new CustomerException("User is not logged in, Please login first!");
 		else {
-
+			Double scale=Math.pow(10, 2);
 			Optional<Customer> cust = customerDAO.findById(trip.getCustomer().getCustomerId());
 			Customer checkCustomer = cust.get();
 
@@ -154,9 +164,9 @@ public class CustomerServiceImpl implements CustomerService {
 			Driver checkDriver = driv.get();
 
 			TripBooking newTrip = new TripBooking();
-			newTrip.setBill(checkDriver.getCab().getCabType().getPrice() * trip.getDistanceInKm());
 			newTrip.setCustomer(checkCustomer);
-			newTrip.setDistanceInKm(trip.getDistanceInKm());
+//			newTrip.setDistanceInKm(Math.round((r.nextInt(high-low)+low)*scale));
+			newTrip.setBill(checkDriver.getCab().getCabType().getPrice() * newTrip.getDistanceInKm());
 			newTrip.setDriver(checkDriver);
 			newTrip.setFromDate(trip.getFromDate());
 			newTrip.setFromLocation(trip.getFromLocation());
@@ -182,6 +192,35 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return "Customer has succefully logged out.";
 
+	}
+	
+	
+
+	@Override
+	public String completeTrip(String key, Integer tripId) {
+		CompletedTrips newTrip=new CompletedTrips();
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		if (otp.isEmpty())
+			throw new CustomerException("User is not logged in, Please login first!");
+		else {
+			Optional<TripBooking> oldTripOpt=tripBookingDao.findById(tripId);
+			if(oldTripOpt.isEmpty()) throw new CustomerException("Please Start your ride First.");
+			TripBooking oldTrip=oldTripOpt.get();
+			newTrip.setBill(oldTrip.getBill());
+			newTrip.setCustomerId(oldTrip.getCustomer().getCustomerId());
+			newTrip.setDistanceInKM(oldTrip.getDistanceInKm());
+			newTrip.setDriverId(oldTrip.getDriver().getDriverId());
+			newTrip.setFromDate(oldTrip.getFromDate());
+			newTrip.setFromLocation(oldTrip.getFromLocation());
+			newTrip.setStatus(TripStatus.COMPLETED);
+			newTrip.setToDate(oldTrip.getToDate());
+			newTrip.setToLocation(oldTrip.getToLocation());
+			newTrip.setTripbookingid(tripId);
+			completedTripsDao.save(newTrip);
+			tripBookingDao.delete(oldTrip);
+				
+		}
+		return "Your Trip is Completed, Thankyou for using our Service. See you Soon!";
 	}
 
 }
