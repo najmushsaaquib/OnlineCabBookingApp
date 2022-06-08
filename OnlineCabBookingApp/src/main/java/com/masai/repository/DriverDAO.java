@@ -1,5 +1,6 @@
 package com.masai.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,8 @@ public interface DriverDAO extends JpaRepository<Driver, Integer>{
 		public Optional<Driver> findByUserUsername(String name);
 		
 		public Optional<Driver>findByUserMobile(String mobile);
+		
+		public List<Driver> findByCabAvailable(Boolean bool);
+		
 		
 }

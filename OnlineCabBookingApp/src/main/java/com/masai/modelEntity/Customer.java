@@ -23,7 +23,7 @@ public class Customer {
 	ModelUser user;
 
 	@Id
-	@SequenceGenerator(name="customer_generator", sequenceName = "customer_seq", allocationSize=10)
+	@SequenceGenerator(name="customer_generator", sequenceName = "customer_seq", allocationSize=50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_generator")
 	private Integer customerId;
 

@@ -3,9 +3,13 @@ package com.masai.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.masai.DTO.CustomerDTO;
 
 import com.masai.modelEntity.Customer;
+import com.masai.modelEntity.Driver;
+import com.masai.modelEntity.TripBooking;
 
 
 public interface CustomerService {
@@ -19,5 +23,10 @@ public interface CustomerService {
 	public String deleteCustomer(CustomerDTO dto, String key);
 	
 	public Customer updateCustomer(Customer customer,String mobile, String key);
+//	public TripBooking addTrip();
+	
+	public List<Driver> getAvailableDrivers();
+	
+	public TripBooking bookTrip(TripBooking trip, String key  );  
 	
 }

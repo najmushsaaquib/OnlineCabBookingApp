@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +16,15 @@ import lombok.NoArgsConstructor;
 public class Cab {
  
 	@Id
-	@SequenceGenerator(name="cab_generator", sequenceName = "cab_seq", allocationSize=10)
+	@SequenceGenerator(name="cab_generator", sequenceName = "cab_seq", allocationSize=50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cab_generator")
 	private Integer Id;
+	
+	@NotNull
 	private Double perKmRate;
-	private String cabType;
-	private boolean status;
+	
+	@NotNull
+	private CabType cabType;
+	
+	private boolean available;
 }

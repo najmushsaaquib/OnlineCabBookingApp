@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,13 +22,16 @@ import lombok.NoArgsConstructor;
 public class UserSession {
 
 	@Id
-	@SequenceGenerator(name="user_generator", sequenceName = "user_seq", allocationSize=10)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+	@SequenceGenerator(name="userSession_generator", sequenceName = "userSession_seq", allocationSize=50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSession_generator")
 	private Integer sessionId;
 	
+	@NotNull
 	private Integer userId;
 	
 	private String uuid;
+	
+	@NotNull
 	private String userType;
 	private LocalDateTime sessionStartTime;
 	private LocalDateTime sessionEndTime;

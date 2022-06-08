@@ -15,8 +15,8 @@ import lombok.Data;
 public class DriverSession {
 	
 	@Id
-	@SequenceGenerator(name="driver_generator", sequenceName = "driver_seq", allocationSize=10)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "driver_generator")
+	@SequenceGenerator(name="driverSession_generator", sequenceName = "driverSession_seq", allocationSize=50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "driverSession_generator")
 	private Integer sessionId;
 	private Integer driverId;
 	private String uuid;

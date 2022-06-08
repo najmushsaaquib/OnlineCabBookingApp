@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Admin {
 	@Id
-	@SequenceGenerator(name="admin_generator", sequenceName = "admin_generator", allocationSize=10)
+	@SequenceGenerator(name="admin_generator", sequenceName = "admin_generator", allocationSize=50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_generator")
 	private Integer adminId;
 	@Embedded

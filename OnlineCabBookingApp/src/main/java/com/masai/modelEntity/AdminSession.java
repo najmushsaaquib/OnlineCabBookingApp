@@ -13,8 +13,8 @@ import lombok.Data;
 @Entity
 public class AdminSession {
 	@Id
-	@SequenceGenerator(name="admin_generator", sequenceName = "admin_seq", allocationSize=10)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_generator")
+	@SequenceGenerator(name="adminSession_generator", sequenceName = "adminSession_seq", allocationSize=50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "adminSession_generator")
 	private Integer sessionId;
 	private Integer adminId;
 	private String uuid;
