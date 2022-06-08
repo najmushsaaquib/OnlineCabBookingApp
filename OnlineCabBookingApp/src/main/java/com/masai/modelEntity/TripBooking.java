@@ -35,13 +35,10 @@ public class TripBooking {
 	@NotNull
 	private TripStatus status;
 	
-	@NotNull
 	private Double distanceInKm;
 	
-	@NotNull
+	
 	private Double bill;
-	
-	
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@NotNull

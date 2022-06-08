@@ -32,4 +32,6 @@ public interface CustomerService {
 	public TripBooking bookTrip(TripBooking trip, String key  );  
 	
 	public String logoutCustomer(String key);
+	
+	public String completeTrip(String key, Integer tripId);
 }
