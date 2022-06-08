@@ -15,8 +15,10 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
 @Entity
+@NoArgsConstructor
 public class TripBooking {
 	@Id
 	@SequenceGenerator(name="trip_generator", sequenceName = "trip_seq", allocationSize=50)
@@ -34,20 +36,19 @@ public class TripBooking {
 	private TripStatus status;
 	
 	@NotNull
-	@Max(1)
 	private Double distanceInKm;
 	
 	@NotNull
 	private Double bill;
 	
 	
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	@NotNull
 	private Customer customer;
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	@NotNull
 	private Driver driver;
 

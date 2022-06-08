@@ -77,7 +77,7 @@ public class LoginServiceImpl implements LoginService {
 			newSession.setSessionEndTime(LocalDateTime.now().plusHours(1));
 
 			UUID uuid = UUID.randomUUID();
-			String token = "customer_" + uuid.toString().split("-")[0];
+			String token = uuid.toString().split("-")[0];
 
 			newSession.setUuid(token);
 

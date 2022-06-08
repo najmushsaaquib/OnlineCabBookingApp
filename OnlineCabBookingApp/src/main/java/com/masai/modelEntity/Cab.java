@@ -20,11 +20,10 @@ public class Cab {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cab_generator")
 	private Integer Id;
 	
-	@NotNull
 	private Double perKmRate;
 	
 	@NotNull
 	private CabType cabType;
 	
-	private boolean available;
+	private String available;
 }

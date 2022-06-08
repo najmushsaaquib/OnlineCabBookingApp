@@ -78,6 +78,13 @@ public class CustomerController {
 
 	}
 
+
+	@GetMapping("/allcabs")
+	public List<Driver> getListForAll() {
+		return customerService.generalListOfDrivers();
+	}
+
+
 	@PostMapping("/booktrip")
 	public ResponseEntity<TripBooking> bookTrip(@RequestBody TripBooking trip, @RequestParam String key) {
 
@@ -87,5 +94,17 @@ public class CustomerController {
 
 		return confirmed;
 	}
+
+	@GetMapping("/logout")
+	public String logoutCustomer(@RequestParam String key) {
+
+		return customerService.logoutCustomer(key);
+
+	}
+	
+//	@DeleteMapping("/tripcompleted")
+//	public String tripComplete(@RequestParam String key) {
+//		
+//	}
 
 }

@@ -11,10 +11,13 @@ public class CabServicesImpl implements CabServices {
 	@Autowired
 	private CabDao cabdao;
 	@Override
-	public Cab addNewcab( Cab cab) {
+	public Cab addNewcab(Cab cab) {
+		Cab newCab = new Cab();
+		newCab.setAvailable("YES");
+		newCab.setCabType(cab.getCabType());
+		newCab.setPerKmRate(cab.getCabType().getPrice());
+		return cabdao.save(newCab);
 		
-		Cab newCab=cabdao.save(cab);
-		return newCab;
 	}
 
 }
