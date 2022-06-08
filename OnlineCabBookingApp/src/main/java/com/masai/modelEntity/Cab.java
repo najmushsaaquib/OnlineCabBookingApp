@@ -17,10 +17,8 @@ public class Cab {
 	@Id
 	@SequenceGenerator(name="cab_generator", sequenceName = "cab_seq", allocationSize=10)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cab_generator")
-	private Integer cabId;
+	private Integer Id;
 	private Double perKmRate;
 	private String cabType;
-	
-	@OneToOne
-	private  Driver driver;
+	private boolean status;
 }

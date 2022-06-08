@@ -1,10 +1,12 @@
 package com.masai.modelEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
@@ -28,5 +30,8 @@ public class Driver {
 	
 	@Embedded
 	private ModelUser user;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Cab cab;
 
 }
