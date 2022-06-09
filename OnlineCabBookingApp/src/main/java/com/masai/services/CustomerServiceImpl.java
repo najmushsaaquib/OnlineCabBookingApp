@@ -167,12 +167,14 @@ public class CustomerServiceImpl implements CustomerService {
 			Driver checkDriver = driv.get();
 			
 			TripBooking newTrip = new TripBooking();
-			Double billAmount = checkDriver.getCab().getCabType().getPrice() * newTrip.getDistanceInKm();
-			
-			Double roundBill = bigD.doubleValue();
 			newTrip.setCustomer(checkCustomer);
 			newTrip.setDistanceInKm(distanceKm);
+			
+			Double billAmount = checkDriver.getCab().getCabType().getPrice() * newTrip.getDistanceInKm();
+			BigDecimal bigDec = new BigDecimal(billAmount).setScale(2, RoundingMode.HALF_UP);
+			Double roundBill = bigDec.doubleValue();
 			newTrip.setBill(roundBill);
+			
 			newTrip.setDriver(checkDriver);
 			newTrip.setFromDate(trip.getFromDate());
 			newTrip.setFromLocation(trip.getFromLocation());
