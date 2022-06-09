@@ -1,5 +1,7 @@
 package com.masai.modelEntity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -22,8 +24,8 @@ public class CompletedTrips {
 	private Integer tripbookingid;
 	private String fromLocation;
 	private String toLocation;
-	private String fromDate;
-	private String toDate;
+	private LocalDateTime fromDate;
+	private LocalDateTime toDate;
 	private Double bill;
 	private Double distanceInKM;
 	@Enumerated

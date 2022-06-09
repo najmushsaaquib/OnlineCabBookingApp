@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.DTO.CustomerDTO;
+import com.masai.DTO.LoginDTO;
 import com.masai.exceptions.CustomerException;
+import com.masai.modelEntity.CompletedTrips;
 import com.masai.modelEntity.Customer;
 import com.masai.modelEntity.Driver;
 import com.masai.modelEntity.TripBooking;
+import com.masai.modelEntity.UserSession;
 import com.masai.services.CustomerService;
+import com.masai.services.LoginService;
 
 @RestController
 @RequestMapping("/customer")
@@ -31,6 +35,15 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	private LoginService loginService;
+	
+
+	@PostMapping("/login")
+	public ResponseEntity<UserSession> loginCustomer(@RequestBody LoginDTO customerdto) {
+		return new ResponseEntity<>(loginService.loginCustomer(customerdto), HttpStatus.ACCEPTED);
+	}
 
 	@PostMapping("/register")
 	public Customer registerCustomer(@RequestBody Customer user) {
@@ -49,33 +62,33 @@ public class CustomerController {
 
 
 	@PatchMapping("/update/{mobile}")
-	public Customer UserUpdatePassword(@RequestBody CustomerDTO dto, @PathVariable("mobile") String mobile,
+	public Customer updateCustomerPasswordByMobile(@RequestBody CustomerDTO dto, @PathVariable("mobile") String mobile,
 			@RequestParam String key) {
 		return customerService.updatePassword(dto, mobile, key);
 	}
 
 	
 	@DeleteMapping("/delete")
-	public String userDelete(@RequestBody CustomerDTO dto, @RequestParam String key) {
+	public String deleteCustomer(@RequestBody CustomerDTO dto, @RequestParam String key) {
 		return customerService.deleteCustomer(dto, key);
 
 	}
 
 	@PutMapping("/update/{mobile}")
-	public Customer adminUpdate(@RequestBody Customer customer, @PathVariable("mobile") String mobile,
+	public Customer updateCustomerByMobile(@RequestBody Customer customer, @PathVariable("mobile") String mobile,
 			@RequestParam String key) {
 		return customerService.updateCustomer(customer, mobile, key);
 	}
 
 	@GetMapping("/availablecabs")
-	public List<Driver> availableDrivers() {
+	public List<Driver> availableCabs() {
 
 		return customerService.getAvailableDrivers();
 
 	}
 
 	@GetMapping("/allcabs")
-	public List<Driver> getListForAll() {
+	public List<Driver> getListForAllCabs() {
 		return customerService.generalListOfDrivers();
 	}
 
@@ -99,5 +112,14 @@ public class CustomerController {
 	public String completeTrip(@RequestParam String key, @PathVariable("tripid") Integer tripId) {
 		return customerService.completeTrip(key, tripId);
 	}
-
+	
+	@DeleteMapping("/canceltrip")
+	public String cancelTrip(@RequestParam String key, @RequestParam Integer tripId) {
+		return customerService.cancelTrip(key, tripId);
+	}
+	
+	@GetMapping("/checkhistory")
+	public List<CompletedTrips> getYourTripHistory(@RequestParam String key){
+		return customerService.alltripHistory(key);
+	}
 }
