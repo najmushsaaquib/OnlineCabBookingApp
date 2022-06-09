@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.masai.DTO.AdminDTO;
 import com.masai.DTO.CustomerDTO;
 import com.masai.DTO.DriverDTO;
+import com.masai.DTO.LoginDTO;
 import com.masai.exceptions.CustomerException;
 import com.masai.exceptions.LoginException;
 import com.masai.modelEntity.AdminSession;
@@ -52,7 +53,7 @@ public class LoginServiceImpl implements LoginService {
 	DriverDAO driverDAO;
 
 	@Override
-	public UserSession loginCustomer(CustomerDTO customer) {
+	public UserSession loginCustomer(LoginDTO customer) {
 
 		Optional<Customer> res = customerDAO.findByUserMobile(customer.getMobile());
 
@@ -89,7 +90,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public AdminSession loginAdmin(AdminDTO dto) {
+	public AdminSession loginAdmin(LoginDTO dto) {
 		Optional<Admin> res = adminDao.findByUserMobile(dto.getMobile());
 
 		if (res.isEmpty()) {
@@ -124,7 +125,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public DriverSession loginDriver(DriverDTO driver) {
+	public DriverSession loginDriver(LoginDTO driver) {
 		Optional<Driver> res = driverDAO.findByUserMobile(driver.getMobile());
 
 		if (!res.isPresent()) {

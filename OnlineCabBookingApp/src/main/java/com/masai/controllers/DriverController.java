@@ -6,6 +6,8 @@ import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.DTO.DriverDTO;
+import com.masai.DTO.LoginDTO;
 import com.masai.modelEntity.Driver;
+import com.masai.modelEntity.DriverSession;
 import com.masai.services.DriverServices;
+import com.masai.services.LoginService;
 
 
 @RestController
@@ -28,6 +33,16 @@ public class DriverController {
 	
 	@Autowired
 	DriverServices  driverServices;
+	
+
+	@Autowired
+	private LoginService loginService;
+	
+	
+	@PostMapping("/login")
+	public ResponseEntity<DriverSession> loginDriver(@RequestBody LoginDTO dto) {
+		return new ResponseEntity<>(loginService.loginDriver(dto), HttpStatus.ACCEPTED);
+	}
 	
 	
 	@PostMapping(value = "/register")
@@ -43,23 +58,23 @@ public class DriverController {
 		return driverlist;
 	}
 	
-	@DeleteMapping(value = "/delete/{user}")
-	public  String deleteuser(@PathVariable("user") String name,@RequestParam String key) {
+	@DeleteMapping(value = "/delete/{username}")
+	public  String deleteDriverByUsername(@PathVariable("username") String name,@RequestParam String key) {
 		
 		String str=driverServices.removeDriver(name,key);
 		
 		return str;
 	}
 	
-	@PutMapping(value = "/update/{driver}")
-	public Driver updatedDriver(@RequestBody Driver driver,@RequestParam String key) {
+	@PutMapping(value = "/update")
+	public Driver updateDriver(@RequestBody Driver driver,@RequestParam String key) {
 		
 		Driver updateddriver=driverServices.updateDriver(driver,key);
 		return updateddriver;
 	}
 	
-	@PatchMapping("/status/{Y}")
-	public String updateStatus(@RequestParam String key, @PathVariable("Y") String newStatus) {
+	@PatchMapping("/status/{?}")
+	public String updateStatus(@RequestParam String key, @PathVariable("?") String newStatus) {
 		return driverServices.updateStatus(newStatus, key);
 		
 	}

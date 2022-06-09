@@ -1,5 +1,7 @@
 package com.masai.modelEntity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,11 @@ import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
 
-
 @Data
 @Entity
 public class CompletedTrips {
 	@Id
-	@SequenceGenerator(name="trip_generator", sequenceName = "trip_seq", allocationSize=50)
+	@SequenceGenerator(name = "trip_generator", sequenceName = "trip_seq", allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trip_generator")
 	private Integer completedTripsId;
 	private Integer customerId;
@@ -22,8 +23,8 @@ public class CompletedTrips {
 	private Integer tripbookingid;
 	private String fromLocation;
 	private String toLocation;
-	private String fromDate;
-	private String toDate;
+	private LocalDate fromDate;
+	private LocalDate toDate;
 	private Double bill;
 	private Double distanceInKM;
 	@Enumerated
