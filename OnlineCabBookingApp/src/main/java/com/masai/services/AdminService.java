@@ -8,6 +8,8 @@ import com.masai.exceptions.AdminException;
 import com.masai.exceptions.LoginException;
 import com.masai.modelEntity.Admin;
 import com.masai.modelEntity.CompletedTrips;
+import com.masai.modelEntity.Customer;
+import com.masai.modelEntity.Driver;
 
 public interface AdminService {
 
@@ -24,5 +26,9 @@ public interface AdminService {
 	public List<CompletedTrips> getTripsByCustomerId(Integer customerId, String key);
 	
 	public List<CompletedTrips> getAllTrips(String key);
+	
+	public List<Driver> getListOfDrivers(String key);
+	
+	public List<Customer> getListOfCustomers(String key);
 	
 }
