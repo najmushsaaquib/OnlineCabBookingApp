@@ -112,7 +112,21 @@ public class AdminServiceImpl implements AdminService {
 			throw new AdminException("Admin is not logged in, Please login first!");
 
 		List<CompletedTrips> listOfTrips = completedTripsDao.findByCustomerId(customerId);
+		if(listOfTrips.isEmpty()) throw new CustomerException("No trips Found by this Customer id "+customerId );
 		return listOfTrips;
 	}
+	
+	@Override
+	public List<CompletedTrips> getAllTrips(String key) {
+		Optional<AdminSession> otp = adminSessionDao.findByUuid(key);
+		if (otp.isEmpty())
+			throw new AdminException("Admin is not logged in, Please login first!");
+
+		List<CompletedTrips> listOfTrips = completedTripsDao.findAll();
+		if(listOfTrips.isEmpty()) throw new CustomerException("No trips Found Currently.");
+		return listOfTrips;
+	}
+	
+	
 
 }

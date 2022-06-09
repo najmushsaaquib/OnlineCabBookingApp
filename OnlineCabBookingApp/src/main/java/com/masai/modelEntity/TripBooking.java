@@ -1,5 +1,7 @@
 package com.masai.modelEntity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,8 +31,8 @@ public class TripBooking {
 	private String fromLocation;
 //	@NotNull
 	private String toLocation;
-	private String fromDate;
-	private String toDate;
+	private LocalDateTime fromDate;
+	private LocalDateTime toDate;
 
 //	@NotNull
 	private TripStatus status;
@@ -39,12 +41,12 @@ public class TripBooking {
 
 	private Double bill;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne
 //	@NotNull
 	private Customer customer;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@NotNull
+	@ManyToOne
+//	@NotNull
 	private Driver driver;
 
 }

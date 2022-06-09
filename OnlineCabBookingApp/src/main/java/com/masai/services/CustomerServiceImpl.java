@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.exceptions.CustomerException;
+import com.masai.exceptions.TripException;
 import com.masai.modelEntity.AdminSession;
 import com.masai.modelEntity.CompletedTrips;
 import com.masai.modelEntity.Customer;
@@ -181,6 +182,19 @@ public class CustomerServiceImpl implements CustomerService {
 		return res;
 
 	}
+	
+	@Override
+	public String cancelTrip(String key, Integer tripId) {
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		if (otp.isEmpty())
+			throw new CustomerException("User is not logged in, Please login first!");
+		Optional<TripBooking> opt=tripBookingDao.findById(tripId);
+		if(opt.isEmpty()) throw new TripException("No trips found by this TripId");
+		TripBooking oldTrip=opt.get();
+		tripBookingDao.deleteById(oldTrip.getTripbookingId());
+		return "Your Trip is Canceled Successfully";
+		
+	}
 
 	@Override
 	public String logoutCustomer(String key) {
@@ -219,9 +233,22 @@ public class CustomerServiceImpl implements CustomerService {
 			newTrip.setTripbookingid(tripId);
 			completedTripsDao.save(newTrip);
 			tripBookingDao.delete(oldTrip);
-
 		}
 		return "Your Trip is Completed, Thankyou for using our Service. See you Soon!";
+	}
+	
+	@Override
+	public List<CompletedTrips> alltripHistory(String key){
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		if (otp.isEmpty())
+			throw new CustomerException("User is not logged in, Please login first!");
+		UserSession session=otp.get();
+		Integer custid=session.getUserId();
+		List<CompletedTrips> ls=completedTripsDao.findByCustomerId(custid);
+		if(ls.isEmpty()) throw new TripException("No trip history found");
+		return ls;
+		
+		
 	}
 
 }

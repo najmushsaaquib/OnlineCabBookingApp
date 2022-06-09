@@ -22,4 +22,7 @@ public interface AdminService {
 	public String logoutAdmin(String key) throws LoginException;
 	
 	public List<CompletedTrips> getTripsByCustomerId(Integer customerId, String key);
+	
+	public List<CompletedTrips> getAllTrips(String key);
+	
 }
