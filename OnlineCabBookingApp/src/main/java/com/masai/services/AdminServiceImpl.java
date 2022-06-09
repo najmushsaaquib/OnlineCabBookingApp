@@ -13,6 +13,8 @@ import com.masai.exceptions.UsernameNotFoundException;
 import com.masai.modelEntity.Admin;
 import com.masai.modelEntity.AdminSession;
 import com.masai.modelEntity.CompletedTrips;
+import com.masai.modelEntity.Customer;
+import com.masai.modelEntity.Driver;
 import com.masai.modelEntity.ModelUser;
 import com.masai.repository.AdminDao;
 import com.masai.repository.AdminSessionDao;
@@ -125,6 +127,19 @@ public class AdminServiceImpl implements AdminService {
 		List<CompletedTrips> listOfTrips = completedTripsDao.findAll();
 		if(listOfTrips.isEmpty()) throw new CustomerException("No trips Found Currently.");
 		return listOfTrips;
+	}
+
+	@Override
+	public List<Driver> getListOfDrivers(String key) {
+		
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Customer> getListOfCustomers(String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

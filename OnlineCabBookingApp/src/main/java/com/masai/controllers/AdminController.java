@@ -22,6 +22,10 @@ import com.masai.DTO.LoginDTO;
 import com.masai.modelEntity.Admin;
 import com.masai.modelEntity.AdminSession;
 import com.masai.modelEntity.CompletedTrips;
+import com.masai.modelEntity.Customer;
+import com.masai.modelEntity.Driver;
+import com.masai.repository.CustomerDAO;
+import com.masai.repository.DriverDAO;
 import com.masai.services.AdminService;
 import com.masai.services.LoginService;
 
@@ -34,6 +38,12 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	CustomerDAO customerDao;
+	
+	@Autowired
+	DriverDAO driverDao;
 	
 	@PostMapping("/login")
 	public ResponseEntity<AdminSession> loginAdmin(@RequestBody LoginDTO dto) {
@@ -78,5 +88,22 @@ public class AdminController {
 		return adminService.getAllTrips(key);
 	}
 	
-
+	
+	@GetMapping("/listofcustomers")
+	public List<Customer> listOfCustomers(@RequestParam String key){
+		
+		List<Customer> listOfCustomers = customerDao.findAll();
+		
+		return listOfCustomers;
+	}
+	
+	@GetMapping("/listofdrivers")
+	public List<Driver> listOfDrivers(@RequestParam String key){
+		
+		List<Driver> listOfDrivers = driverDao.findAll();
+		
+		return listOfDrivers;
+	}
+	
+	
 }
