@@ -32,78 +32,74 @@ import com.masai.services.LoginService;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	private LoginService loginService;
-	
+
 	@Autowired
 	AdminService adminService;
-	
-	@Autowired
-	CustomerDAO customerDao;
-	
-	@Autowired
-	DriverDAO driverDao;
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<AdminSession> loginAdmin(@RequestBody LoginDTO dto) {
 		return new ResponseEntity<>(loginService.loginAdmin(dto), HttpStatus.ACCEPTED);
 	}
-	
+
 	@PostMapping("/register")
 	public Admin registerAdmin(@RequestBody Admin admin) {
 		return adminService.adminRegister(admin);
-		
+
 	}
+
 	@PatchMapping("/update/{username}")
-	public Admin updateAdminPassword(@RequestBody AdminDTO dto, @PathVariable ("username" ) String username, @RequestParam String key) {
+	public Admin updateAdminPassword(@RequestBody AdminDTO dto, @PathVariable("username") String username,
+			@RequestParam String key) {
 		return adminService.updatePassword(dto, username, key);
 	}
-	
+
 	@PutMapping("/update/{username}")
-	public Admin updateAdmin(@RequestBody Admin admin, @PathVariable ("username") String username, @RequestParam String key) {
+	public Admin updateAdmin(@RequestBody Admin admin, @PathVariable("username") String username,
+			@RequestParam String key) {
 		return adminService.update(admin, username, key);
 	}
-	
+
 	@DeleteMapping("/delete")
 	public String deleteAdmin(@RequestBody AdminDTO dto, @RequestParam String key) {
 		return adminService.deleteByUsername(dto, key);
-		
+
 	}
-	
+
 	@GetMapping("/logout")
 	public String logoutAdmin(@RequestParam String key) {
-		
+
 		return adminService.logoutAdmin(key);
-		
+
 	}
-	
+
 	@GetMapping("/listoftripsbycustomer")
-	public List<CompletedTrips> listOfAllTripsByCustomer(@RequestParam Integer customerId, @RequestParam String key){
+	public List<CompletedTrips> listOfAllTripsByCustomer(@RequestParam Integer customerId, @RequestParam String key) {
 		return adminService.getTripsByCustomerId(customerId, key);
-		
+
 	}
+
 	@GetMapping("/listoftrips")
-	public List<CompletedTrips> listOfAllTrips(@RequestParam String key){
+	public List<CompletedTrips> listOfAllTrips(@RequestParam String key) {
 		return adminService.getAllTrips(key);
 	}
-	
-	
+
 	@GetMapping("/listofcustomers")
-	public List<Customer> listOfCustomers(@RequestParam String key){
-		
-		List<Customer> listOfCustomers = customerDao.findAll();
-		
+	public List<Customer> listOfCustomers(@RequestParam String key) {
+
+		List<Customer> listOfCustomers = adminService.getListOfCustomers(key);
+
 		return listOfCustomers;
 	}
-	
+
 	@GetMapping("/listofdrivers")
-	public List<Driver> listOfDrivers(@RequestParam String key){
-		
-		List<Driver> listOfDrivers = driverDao.findAll();
-		
+	public List<Driver> listOfDrivers(@RequestParam String key) {
+
+		List<Driver> listOfDrivers = adminService.getListOfDrivers(key);
+
 		return listOfDrivers;
 	}
-	
-	
+
 }

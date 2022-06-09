@@ -39,4 +39,6 @@ public interface CustomerService {
 	public String completeTrip(String key, Integer tripId);
 	
 	public List<CompletedTrips> alltripHistory(String key);
+	
+	public TripBooking updateTrip(TripBooking trip, String key);
 }

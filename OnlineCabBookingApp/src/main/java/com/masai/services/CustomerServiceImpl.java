@@ -165,11 +165,14 @@ public class CustomerServiceImpl implements CustomerService {
 
 			Optional<Driver> driv = driverDao.findById(trip.getDriver().getDriverId());
 			Driver checkDriver = driv.get();
-
+			
 			TripBooking newTrip = new TripBooking();
+			Double billAmount = checkDriver.getCab().getCabType().getPrice() * newTrip.getDistanceInKm();
+			
+			Double roundBill = bigD.doubleValue();
 			newTrip.setCustomer(checkCustomer);
 			newTrip.setDistanceInKm(distanceKm);
-			newTrip.setBill(checkDriver.getCab().getCabType().getPrice() * newTrip.getDistanceInKm());
+			newTrip.setBill(roundBill);
 			newTrip.setDriver(checkDriver);
 			newTrip.setFromDate(trip.getFromDate());
 			newTrip.setFromLocation(trip.getFromLocation());
@@ -182,18 +185,19 @@ public class CustomerServiceImpl implements CustomerService {
 		return res;
 
 	}
-	
+
 	@Override
 	public String cancelTrip(String key, Integer tripId) {
 		Optional<UserSession> otp = userSessionDao.findByUuid(key);
 		if (otp.isEmpty())
 			throw new CustomerException("User is not logged in, Please login first!");
-		Optional<TripBooking> opt=tripBookingDao.findById(tripId);
-		if(opt.isEmpty()) throw new TripException("No trips found by this TripId");
-		TripBooking oldTrip=opt.get();
+		Optional<TripBooking> opt = tripBookingDao.findById(tripId);
+		if (opt.isEmpty())
+			throw new TripException("No trips found by this TripId");
+		TripBooking oldTrip = opt.get();
 		tripBookingDao.deleteById(oldTrip.getTripbookingId());
 		return "Your Trip is Canceled Successfully";
-		
+
 	}
 
 	@Override
@@ -236,19 +240,30 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		return "Your Trip is Completed, Thankyou for using our Service. See you Soon!";
 	}
-	
+
 	@Override
-	public List<CompletedTrips> alltripHistory(String key){
+	public List<CompletedTrips> alltripHistory(String key) {
 		Optional<UserSession> otp = userSessionDao.findByUuid(key);
 		if (otp.isEmpty())
 			throw new CustomerException("User is not logged in, Please login first!");
-		UserSession session=otp.get();
-		Integer custid=session.getUserId();
-		List<CompletedTrips> ls=completedTripsDao.findByCustomerId(custid);
-		if(ls.isEmpty()) throw new TripException("No trip history found");
+		UserSession session = otp.get();
+		Integer custid = session.getUserId();
+		List<CompletedTrips> ls = completedTripsDao.findByCustomerId(custid);
+		if (ls.isEmpty())
+			throw new TripException("No trip history found");
 		return ls;
-		
-		
+
+	}
+
+	@Override
+	public TripBooking updateTrip(TripBooking trip, String key) {
+		Optional<UserSession> otp = userSessionDao.findByUuid(key);
+		if (otp.isEmpty())
+			throw new CustomerException("User is not logged in, Please login first!");
+
+		TripBooking updatedTrip = tripBookingDao.save(trip);
+
+		return updatedTrip;
 	}
 
 }
