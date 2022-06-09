@@ -34,24 +34,19 @@ public class CustomerController {
 
 	@PostMapping("/register")
 	public Customer registerCustomer(@RequestBody Customer user) {
-
 		Customer newUser = customerService.register(user);
-
 		return newUser;
 
 	}
 
-	@GetMapping("/all")
+	@GetMapping("/customerlist")
 	public List<Customer> getAllCustomer() {
-
 		List<Customer> list = customerService.getCustomer();
-
 		if (list.isEmpty())
 			throw new CustomerException("There is no customer found in the database.");
-
 		return list;
-
 	}
+
 
 	@PatchMapping("/update/{mobile}")
 	public Customer UserUpdatePassword(@RequestBody CustomerDTO dto, @PathVariable("mobile") String mobile,
@@ -59,6 +54,7 @@ public class CustomerController {
 		return customerService.updatePassword(dto, mobile, key);
 	}
 
+	
 	@DeleteMapping("/delete")
 	public String userDelete(@RequestBody CustomerDTO dto, @RequestParam String key) {
 		return customerService.deleteCustomer(dto, key);
@@ -78,12 +74,10 @@ public class CustomerController {
 
 	}
 
-
 	@GetMapping("/allcabs")
 	public List<Driver> getListForAll() {
 		return customerService.generalListOfDrivers();
 	}
-
 
 	@PostMapping("/booktrip")
 	public ResponseEntity<TripBooking> bookTrip(@RequestBody TripBooking trip, @RequestParam String key) {
@@ -100,10 +94,10 @@ public class CustomerController {
 
 		return customerService.logoutCustomer(key);
 	}
-	
+
 	@DeleteMapping("/complete/{tripid}")
-	public String completeTrip(@RequestParam String key, @PathVariable("tripid") Integer tripId ) {
-	return customerService.completeTrip(key, tripId);	
+	public String completeTrip(@RequestParam String key, @PathVariable("tripid") Integer tripId) {
+		return customerService.completeTrip(key, tripId);
 	}
 
 }

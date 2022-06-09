@@ -12,16 +12,14 @@ import com.masai.services.CabServices;
 @RestController
 @RequestMapping("/cab")
 public class CabController {
-	
+
 	@Autowired
 	CabServices cabServices;
-	
+
 	@PostMapping("/addcab")
 	public Cab newCab(@RequestBody Cab cab) {
-		
-		Cab newCab=cabServices.addNewcab(cab);
-		
+		Cab newCab = cabServices.addNewcab(cab);
 		return newCab;
 	}
-	
+
 }

@@ -19,34 +19,25 @@ import com.masai.services.LoginService;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
-	
-	
+
 	@Autowired
 	private LoginService loginService;
-	
-	
-	//Handler to login a customer
-	
 
-		
-		
-		@PostMapping("/admin")
-		public ResponseEntity<AdminSession> loginAdminHandler(@RequestBody AdminDTO dto){
-			return new ResponseEntity<>(loginService.loginAdmin(dto), HttpStatus.ACCEPTED);
-		}
+	// Handler to login a customer
 
-		@PostMapping("/customer")
-		public ResponseEntity<UserSession> loginCustomerHandler(@RequestBody CustomerDTO customerdto){
-			return new ResponseEntity<>(loginService.loginCustomer(customerdto), HttpStatus.ACCEPTED);
-		}
-		
+	@PostMapping("/admin")
+	public ResponseEntity<AdminSession> loginAdminHandler(@RequestBody AdminDTO dto) {
+		return new ResponseEntity<>(loginService.loginAdmin(dto), HttpStatus.ACCEPTED);
+	}
 
-		@PostMapping("/driver")
-		public ResponseEntity<DriverSession> loginAdminHandler(@RequestBody DriverDTO dto){
-			return new ResponseEntity<>(loginService.loginDriver(dto), HttpStatus.ACCEPTED);
-		}
-	
-		
-		
+	@PostMapping("/customer")
+	public ResponseEntity<UserSession> loginCustomerHandler(@RequestBody CustomerDTO customerdto) {
+		return new ResponseEntity<>(loginService.loginCustomer(customerdto), HttpStatus.ACCEPTED);
+	}
+
+	@PostMapping("/driver")
+	public ResponseEntity<DriverSession> loginAdminHandler(@RequestBody DriverDTO dto) {
+		return new ResponseEntity<>(loginService.loginDriver(dto), HttpStatus.ACCEPTED);
+	}
 
 }

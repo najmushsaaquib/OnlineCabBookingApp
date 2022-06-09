@@ -11,41 +11,39 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @Entity
 @NoArgsConstructor
 public class TripBooking {
 	@Id
-	@SequenceGenerator(name="trip_generator", sequenceName = "trip_seq", allocationSize=50)
+	@SequenceGenerator(name = "trip_generator", sequenceName = "trip_seq", allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trip_generator")
 	private Integer tripbookingId;
-	
-	@NotNull
+
+//	@NotNull
 	private String fromLocation;
-	@NotNull
+//	@NotNull
 	private String toLocation;
 	private String fromDate;
 	private String toDate;
-	
-	@NotNull
+
+//	@NotNull
 	private TripStatus status;
-	
+
 	private Double distanceInKm;
-	
-	
+
 	private Double bill;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@NotNull
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@NotNull
 	private Customer customer;
 
-	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@NotNull
 	private Driver driver;
 
