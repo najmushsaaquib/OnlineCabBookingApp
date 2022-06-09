@@ -99,12 +99,11 @@ public class CustomerController {
 	public String logoutCustomer(@RequestParam String key) {
 
 		return customerService.logoutCustomer(key);
-
 	}
 	
-//	@DeleteMapping("/tripcompleted")
-//	public String tripComplete(@RequestParam String key) {
-//		
-//	}
+	@DeleteMapping("/complete/{tripid}")
+	public String completeTrip(@RequestParam String key, @PathVariable("tripid") Integer tripId ) {
+	return customerService.completeTrip(key, tripId);	
+	}
 
 }
