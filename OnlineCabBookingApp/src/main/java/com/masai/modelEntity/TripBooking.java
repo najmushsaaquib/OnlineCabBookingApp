@@ -1,6 +1,6 @@
 package com.masai.modelEntity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -31,8 +31,8 @@ public class TripBooking {
 	private String fromLocation;
 //	@NotNull
 	private String toLocation;
-	private LocalDateTime fromDate;
-	private LocalDateTime toDate;
+	private LocalDate fromDate;
+	private LocalDate toDate;
 
 //	@NotNull
 	private TripStatus status;

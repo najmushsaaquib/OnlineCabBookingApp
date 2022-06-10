@@ -35,10 +35,9 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
-	
+
 	@Autowired
 	private LoginService loginService;
-	
 
 	@PostMapping("/login")
 	public ResponseEntity<UserSession> loginCustomer(@RequestBody LoginDTO customerdto) {
@@ -60,14 +59,12 @@ public class CustomerController {
 		return list;
 	}
 
-
-	@PatchMapping("/update/{mobile}")
+	@PatchMapping("/updatepassword/{mobile}")
 	public Customer updateCustomerPasswordByMobile(@RequestBody CustomerDTO dto, @PathVariable("mobile") String mobile,
 			@RequestParam String key) {
 		return customerService.updatePassword(dto, mobile, key);
 	}
 
-	
 	@DeleteMapping("/delete")
 	public String deleteCustomer(@RequestBody CustomerDTO dto, @RequestParam String key) {
 		return customerService.deleteCustomer(dto, key);
@@ -112,14 +109,22 @@ public class CustomerController {
 	public String completeTrip(@RequestParam String key, @PathVariable("tripid") Integer tripId) {
 		return customerService.completeTrip(key, tripId);
 	}
-	
+
 	@DeleteMapping("/canceltrip")
 	public String cancelTrip(@RequestParam String key, @RequestParam Integer tripId) {
 		return customerService.cancelTrip(key, tripId);
 	}
-	
+
 	@GetMapping("/checkhistory")
-	public List<CompletedTrips> getYourTripHistory(@RequestParam String key){
+	public List<CompletedTrips> getYourTripHistory(@RequestParam String key) {
 		return customerService.alltripHistory(key);
+	}
+
+	@PostMapping("/updatetrip")
+	public ResponseEntity<TripBooking> updateTrip(@RequestBody TripBooking trip, @RequestParam String key ){
+		
+		TripBooking updatedTrip =  customerService.updateTrip(trip,key);
+		 return new ResponseEntity<>(updatedTrip, HttpStatus.OK);
+		
 	}
 }
