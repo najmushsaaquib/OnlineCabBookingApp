@@ -60,21 +60,20 @@
 
 `https://localhost:8021/`
 
-`http://localhost:8021/swagger-ui/index.html#/`
+`http://localhost:8021/swagger-ui.html`
 
 
 ## API Module Endpoints
 
 ### Customer Module
 
-* `GET /customer/customerlist` : Getting the list of customers
+
+* `POST /customer/login` : Logging in customer with valid mobile number & password
 * `GET /customer/availablecabs` : Getting the list of all the available cabs
 * `GET /customers/cabs` : Getting All the cabs
 * `GET /customers/checkhistory` : Getting the history of completed tr
 * `PUT /customer/update/{mobile}` : Updates customer details based on mobile number
-* `PUT /customer/update/card` : Updates credit card details
 * `PATCH /customer/updatepassword/{mobile}` : Updates customer's password based on the given mobile number
-* `POST /customer/login` : Logging in customer with valid mobile number & password
 * `POST /customer/booktrip` : Customer can book a cab
 * `POST /customer/updatetrip` : Customer can modify or update the trip
 * `POST /customer/logout` : Logging out customer based on session token
